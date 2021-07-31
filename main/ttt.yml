@@ -1,0 +1,22 @@
+version: '3.6'
+services:
+  ttt:
+    container_name: ttt
+    image: ubuntu
+      #ports:
+      #  - 8888:8888
+    volumes:
+      #- /etc/localtime:/etc/localtime:ro
+      - $HOME/tools/jdk1.8.0_201:/media
+      - $HOME/suimai/suimai-gateway:/opt
+    environment:
+      - LANG="zh_CN.UTF-8"
+        #- TZ="Asia/Shanghai"
+      - JAVA_HOME=/media
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/media/bin
+    deploy:
+      resources:
+        limits:
+          memory: 500M
+    entrypoint: java -jar -Duser.timezone=GMT+8 -Dspring.profiles.active=test /opt/target/suimai-gateway-0.0.1-SNAPSHOT.jar
+

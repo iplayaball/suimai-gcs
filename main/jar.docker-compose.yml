@@ -1,0 +1,151 @@
+version: '3'
+services:
+  gateway:
+    container_name: gateway
+    image: ubuntu
+    ports:
+      - 8888:8888
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - $HOME/tools/jdk1.8.0_201:/media
+      - $HOME/suimai/suimai-gateway:/opt
+    environment:
+      - LANG="C.UTF-8"
+      - JAVA_HOME=/media
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/media/bin
+    deploy:
+      resources:
+        limits:
+          memory: 500M
+    entrypoint: java -jar -Duser.timezone=GMT+8 -Dspring.profiles.active=test /opt/target/suimai-gateway-0.0.1-SNAPSHOT.jar
+
+  member:
+    container_name: member
+    image: ubuntu
+    ports:
+      - 8000:8000
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - $HOME/tools/jdk1.8.0_201:/media
+      - $HOME/suimai/member:/opt
+    environment:
+      - LANG="C.UTF-8"
+      - JAVA_HOME=/media
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/media/bin
+    deploy:
+      resources:
+        limits:
+          memory: 800M
+    entrypoint: java -jar -Duser.timezone=GMT+8 -Dspring.profiles.active=test /opt/target/member-0.0.1-SNAPSHOT.jar
+
+  auth:
+    container_name: auth
+    image: ubuntu
+    ports:
+      - 20000:20000
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - $HOME/tools/jdk1.8.0_201:/media
+      - $HOME/suimai/suimai-auth-server:/opt
+    environment:
+      - LANG="C.UTF-8"
+      - JAVA_HOME=/media
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/media/bin
+    deploy:
+      resources:
+        limits:
+          memory: 800M
+    #entrypoint: java -jar -Duser.timezone=GMT+8 -Dspring.profiles.active=test /opt/target/suimai-auth-server-0.0.1-SNAPSHOT.jar
+    command: java -jar -Duser.timezone=GMT+8 -Dspring.profiles.active=test /opt/target/suimai-auth-server-0.0.1-SNAPSHOT.jar
+
+  third-party:
+    container_name: third-party
+    image: ubuntu
+    ports:
+      - 30000:30000
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - $HOME/tools/jdk1.8.0_201:/media
+      - $HOME/suimai/suimai-third-party:/opt
+    environment:
+      - LANG="C.UTF-8"
+      - JAVA_HOME=/media
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/media/bin
+    deploy:
+      resources:
+        limits:
+          memory: 400M
+    entrypoint: java -jar -Duser.timezone=GMT+8 -Dspring.profiles.active=test /opt/target/suimai-third-party-0.0.1-SNAPSHOT.jar
+
+  search:
+    container_name: search
+    image: ubuntu
+    ports:
+      - 12000:12000
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - $HOME/tools/jdk1.8.0_201:/media
+      - $HOME/suimai/suimai-search:/opt
+    environment:
+      - LANG="C.UTF-8"
+      - JAVA_HOME=/media
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/media/bin
+    deploy:
+      resources:
+        limits:
+          memory: 500M
+    entrypoint: java -jar -Duser.timezone=GMT+8 -Dspring.profiles.active=test /opt/target/suimai-search-0.0.1-SNAPSHOT.jar
+  
+  renren:
+    container_name: renren
+    image: ubuntu
+    ports:
+      - 8080:8080
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - $HOME/tools/jdk1.8.0_201:/media
+      - $HOME/suimai/renren-fast:/opt
+    environment:
+      - LANG="C.UTF-8"
+      - JAVA_HOME=/media
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/media/bin
+    deploy:
+      resources:
+        limits:
+          memory: 600M
+    entrypoint: java -jar -Duser.timezone=GMT+8 -Dspring.profiles.active=test /opt/target/renren-fast.jar
+
+  product:
+    image: ubuntu
+    container_name: product
+    ports:
+      - 10000:10000
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - $HOME/tools:/media
+      - $HOME/suimai/product:/opt
+    environment:
+      - LANG="C.UTF-8"
+      - JAVA_HOME=/media/jdk1.8.0_201
+      - M2_HOME=/media/apache-maven-3.6.3
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/media/jdk1.8.0_201/bin:/media/apache-maven-3.6.3/bin
+    working_dir: /opt
+    deploy:
+      resources:
+        limits:
+          memory: 800M
+    entrypoint: mvn spring-boot:run -Duser.timezone=GMT+8 -Dspring-boot.run.profiles=test -Dmaven.repo.local=/media/m2repository
+
+
+#  admin-vue:
+#    image: ubuntu
+#    ports:
+#      - 8001:8001
+#    volumes:
+#      - /usr/local/nvm:/media
+#      - $HOME/suimai-admin-vue:/opt
+#    environment:
+#      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/media/jdk1.8.0_201/bin:/media/versions/node/v12.14.1/bin
+#    working_dir: /opt
+#    entrypoint: npm run dev
+

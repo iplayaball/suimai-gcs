@@ -1,0 +1,133 @@
+version: '3'
+services:
+  gateway:
+    container_name: gateway
+    image: ubuntu
+    ports:
+      - 8888:8888
+    volumes:
+      - $vtime
+      - $vtools
+      - $HOME/suimai/suimai-gateway:$wdir
+    environment:
+      - $elang
+      - JAVA_HOME=$toolsDir/jdk1.8.0_201
+      - M2_HOME=$toolsDir/apache-maven-3.6.3
+    deploy:
+      resources:
+        limits:
+          memory: 500M
+    working_dir: $wdir
+    #entrypoint: bash $toolsDir/run.sh
+    entrypoint: $toolsDir/apache-maven-3.6.3/bin/mvn spring-boot:run -Duser.timezone=GMT+8 -Dspring-boot.run.profiles=test -Dmaven.repo.local=$toolsDir/m2repository
+
+  member:
+    container_name: member
+    image: ubuntu
+    ports:
+      - 8000:8000
+    volumes:
+      - $vtime
+      - $vtools
+      - $HOME/suimai/member:$wdir
+    environment:
+      - $elang
+    deploy:
+      resources:
+        limits:
+          memory: 800M
+    working_dir: $wdir
+    entrypoint: bash $toolsDir/run.sh
+
+  auth:
+    container_name: auth
+    image: ubuntu
+    ports:
+      - 20000:20000
+    volumes:
+      - $vtime
+      - $vtools
+      - $HOME/suimai/suimai-auth-server:$wdir
+    environment:
+      - $elang
+    deploy:
+      resources:
+        limits:
+          memory: 800M
+    working_dir: $wdir
+    entrypoint: bash $toolsDir/run.sh
+
+  third-party:
+    container_name: third-party
+    image: ubuntu
+    ports:
+      - 30000:30000
+    volumes:
+      - $vtime
+      - $vtools
+      - $HOME/suimai/suimai-third-party:$wdir
+    environment:
+      - $elang
+    deploy:
+      resources:
+        limits:
+          memory: 400M
+    working_dir: $wdir
+    entrypoint: bash $toolsDir/run.sh
+
+  search:
+    container_name: search
+    image: ubuntu
+    ports:
+      - 12000:12000
+    volumes:
+      - $vtime
+      - $vtools
+      - $HOME/suimai/suimai-search:$wdir
+    environment:
+      - $elang
+    deploy:
+      resources:
+        limits:
+          memory: 500M
+    working_dir: $wdir
+    entrypoint: bash $toolsDir/run.sh
+  
+  renren:
+    container_name: renren
+    image: ubuntu
+    ports:
+      - 8080:8080
+    volumes:
+      - $vtime
+      - $vtools
+      - $HOME/suimai/renren-fast:$wdir
+    environment:
+      - $elang
+    deploy:
+      resources:
+        limits:
+          memory: 600M
+    working_dir: $wdir
+    entrypoint: bash $toolsDir/run.sh
+
+  product:
+    image: ubuntu
+    container_name: product
+    ports:
+      - 10000:10000
+    volumes:
+      - $vtime
+      - $vtools
+      - $HOME/suimai/product:$wdir
+    environment:
+      - $elang
+    working_dir: $wdir
+    deploy:
+      resources:
+        limits:
+          memory: 800M
+    working_dir: $wdir
+    entrypoint: bash $toolsDir/run.sh
+
+

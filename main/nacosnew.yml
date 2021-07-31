@@ -1,0 +1,21 @@
+version: "3"
+services:
+  nacos:
+    image: nacos/nacos-server:latest
+    container_name: nacos
+    ports:
+      - 8848:8848     
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - $HOME/tools/jdk1.8.0_201:/media
+      #- /opt/nacos/logs:/home/nacos/logs
+    environment:
+      - JAVA_HOME=/media
+      - MODE=standalone
+      - JVM_XMS=400m
+      - JVM_XMX=400m
+      - JVM_XMN=200m
+    deploy:
+      resources:
+        limits:
+          memory: 600M

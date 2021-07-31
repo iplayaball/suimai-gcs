@@ -1,0 +1,22 @@
+version: '3'
+services:
+  nacos:
+    image: ubuntu:18.04
+    container_name: nacos
+    ports:
+      - 8848:8848
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - $HOME/tools/jdk1.8.0_201:/media
+      - $HOME/tools/nacos:/opt
+    environment:
+      - LANG="C.UTF-8"
+      #- TZ="Asia/Shanghai"
+      - JAVA_HOME=/media
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/media/bin
+    deploy:
+      resources:
+        limits:
+          memory: 600M
+    entrypoint: /bin/bash /opt/bin/startup.sh -m standalone
+
