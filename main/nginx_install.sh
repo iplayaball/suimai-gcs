@@ -20,7 +20,8 @@ else
   apt-get install nginx -y
   sed -i  '/sites-enabled/ s/^/#/' /etc/nginx/nginx.conf
   ln -sf $HOME/gcs-suimai/nginx/vue.conf /etc/nginx/conf.d/vue.conf
-  ln -sf $HOME/gcs-suimai/nginx/user.conf /etc/nginx/conf.d/user.conf
+  cp -av $HOME/gcs-suimai/nginx/user.conf /etc/nginx/conf.d/user.conf
+  sed -i "s#HOME#$HOME#" /etc/nginx/conf.d/user.conf
   nginx
 fi
 
