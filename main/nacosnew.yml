@@ -7,10 +7,10 @@ services:
       - 8848:8848     
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - $HOME/tools/jdk1.8.0_201:/media
+      #- $HOME/tools/jdk1.8.0_201:/media
       #- /opt/nacos/logs:/home/nacos/logs
     environment:
-      - JAVA_HOME=/media
+      #- JAVA_HOME=/media
       - MODE=standalone
       - JVM_XMS=400m
       - JVM_XMX=400m

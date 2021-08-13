@@ -7,8 +7,8 @@ services:
       - 3306:3306
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - $HOME/dkvolumeData/mysql/log:/var/log/mysql
-      - $HOME/dkvolumeData/mysql/data:/var/lib/mysql
+      - $HOME/tools/dkvolumeData/mysql/log:/var/log/mysql
+      - $HOME/tools/dkvolumeData/mysql/data:/var/lib/mysql
       - $HOME/gcs-suimai/dkvolumes/mysql/conf:/etc/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root
@@ -20,7 +20,7 @@ services:
       - 6379:6379
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - $HOME/dkvolumeData/redis/data:/data
+      - $HOME/tools/dkvolumeData/redis/data:/data
       - $HOME/gcs-suimai/dkvolumes/redis/conf/redis.conf:/etc/redis/redis.conf
     entrypoint: redis-server /etc/redis/redis.conf
 
@@ -33,7 +33,7 @@ services:
       - 1001:80
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - $HOME/dkvolumeData/nginx/logs:/var/log/nginx
+      - $HOME/tools/dkvolumeData/nginx/logs:/var/log/nginx
       - $HOME/gcs-suimai/dkvolumes/nginx/html:/usr/share/nginx/html
       - $HOME/gcs-suimai/dkvolumes/nginx/conf:/etc/nginx
 
@@ -48,7 +48,7 @@ services:
       - $HOME/gcs-suimai/dkvolumes/es/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - $HOME/gcs-suimai/dkvolumes/es/config/jvm.options:/usr/share/elasticsearch/config/jvm.options
       - $HOME/gcs-suimai/dkvolumes/es/plugins:/usr/share/elasticsearch/plugins
-      - $HOME/dkvolumeData/es/data:/usr/share/elasticsearch/data
+      - $HOME/tools/dkvolumeData/es/data:/usr/share/elasticsearch/data
     environment:
       - discovery.type=single-node
         #- ES_JAVA_OPTS="-Xmx512m"

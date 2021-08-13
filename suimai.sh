@@ -6,6 +6,7 @@
 ##########################################################################
 #set -e
 
+st=80
 dkcpsCmd="docker-compose --compatibility -f"
 
 cd $HOME/gcs-suimai/main/
@@ -19,8 +20,16 @@ else
   case "$1" in
     begin)
       $dkcpsCmd nacosnew.yml up -d
+      sys_date1=$(date +%s)
+
       $dkcpsCmd data.yml up -d
       sh nginx_install.sh
+      
+      sys_date2=$(date +%s)
+      sys_date2=$(date +%s)
+      time=`expr $sys_date2 - $sys_date1`
+      etime=$(($st-$time))
+      [ $etime -gt 0 ] && echo "还需要等待 $etime 后才能注册到nacoas " && sleep $etime
 
       $dkcpsCmd docker-compose.yml up -d
       ;;
