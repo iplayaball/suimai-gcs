@@ -21,6 +21,24 @@ services:
     #entrypoint: bash $toolsDir/run.sh
     entrypoint: $toolsDir/apache-maven-3.6.3/bin/mvn spring-boot:run -Duser.timezone=GMT+8 -Dspring-boot.run.profiles=test -Dmaven.repo.local=$toolsDir/m2repository
 
+  order:
+    container_name: order
+    image: ubuntu
+    ports:
+      - 9000:9000
+    volumes:
+      - $vtime
+      - $vtools
+      - $HOME/suimai/order:$wdir
+    environment:
+      - $elang
+    deploy:
+      resources:
+        limits:
+          memory: 800M
+    working_dir: $wdir
+    entrypoint: bash $toolsDir/run.sh
+
   cart:
     container_name: cart
     image: ubuntu
@@ -35,7 +53,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 800M
+          memory: 600M
     working_dir: $wdir
     entrypoint: bash $toolsDir/run.sh
 
@@ -53,7 +71,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 800M
+          memory: 400M
     working_dir: $wdir
     entrypoint: bash $toolsDir/run.sh
 
@@ -71,7 +89,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 800M
+          memory: 600M
     working_dir: $wdir
     entrypoint: bash $toolsDir/run.sh
 
