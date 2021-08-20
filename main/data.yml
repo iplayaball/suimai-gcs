@@ -24,7 +24,20 @@ services:
       - $HOME/gcs-suimai/dkvolumes/redis/conf/redis.conf:/etc/redis/redis.conf
     entrypoint: redis-server /etc/redis/redis.conf
 
-  
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:management
+    ports:
+      - 5671:5671
+      - 15671:15671
+      - 5672:5672
+      - 15672:15672
+      - 25672:25672
+      - 4369:4369  
+    deploy:
+      resources:
+        limits:
+          memory: 500M
 
   nginx:
     image: nginx:1.14.2
