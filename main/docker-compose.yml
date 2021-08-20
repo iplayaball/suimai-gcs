@@ -21,6 +21,24 @@ services:
     #entrypoint: bash $toolsDir/run.sh
     entrypoint: $toolsDir/apache-maven-3.6.3/bin/mvn spring-boot:run -Duser.timezone=GMT+8 -Dspring-boot.run.profiles=test -Dmaven.repo.local=$toolsDir/m2repository
 
+  ware:
+    container_name: ware
+    image: ubuntu
+    ports:
+      - 11000:11000
+    volumes:
+      - $vtime
+      - $vtools
+      - $HOME/suimai/ware:$wdir
+    environment:
+      - $elang
+    deploy:
+      resources:
+        limits:
+          memory: 400M
+    working_dir: $wdir
+    entrypoint: bash $toolsDir/run.sh
+
   order:
     container_name: order
     image: ubuntu
